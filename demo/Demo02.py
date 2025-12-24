@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langgraph.graph import StateGraph, MessagesState, START, END
+from langchain.messages import SystemMessage, HumanMessage
 
 # 加载 .env 中的 API 密钥
 load_dotenv()
@@ -33,11 +34,16 @@ graph = builder.compile()
 
 # 测试调用
 if __name__ == "__main__":
+    system_prompt = "你是一个友好且鼓励性的教练，回答要简洁并给出入门建议。"
     user_input = "你好，我第一次使用lang graph使用千问开发agent，请鼓励一下我吧，并给我介绍下我如何更好的入门"
-    result = graph.invoke({
-        "messages": [{"role": "user", "content": user_input}]
-    })
 
+    result = graph.invoke({
+        "messages": [
+            SystemMessage(content=system_prompt),
+            HumanMessage(content=user_input)
+        ]
+    })
+    
     # 打印 AI 回复
     ai_message = result["messages"][-1]
     print("千问回答：")

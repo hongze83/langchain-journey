@@ -12,7 +12,6 @@ model = ChatTongyi(
     dashscope_api_key=os.getenv("DASHSCOPE_API_KEY")
 )
 
-
 # 定义工具
 @tool
 def multiply(a: int, b: int) -> int:
